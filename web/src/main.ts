@@ -10,6 +10,7 @@ const btnWasm = document.querySelector<HTMLButtonElement>("#btn-wasm")!;
 const invert = document.querySelector<HTMLInputElement>("#invert")!;
 const invertVal = document.querySelector<HTMLSpanElement>("#invertVal")!;
 const log = document.querySelector<HTMLSpanElement>("#log")!;
+const btnReset = document.querySelector<HTMLButtonElement>("#btn-reset")!;
 
 const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
 
@@ -38,6 +39,19 @@ function timeIt(label: string, fn: () => void) {
 async function main() {
   // Init WASM
   await init();
+
+  btnReset.addEventListener("click", () => {
+    if (!originalImageData) return;
+
+    // Réinitialiser le slider
+    invert.value = "0";
+    invertVal.textContent = "0.00";
+
+    // Restaurer l’image originale
+    ctx.putImageData(originalImageData, 0, 0);
+
+    log.textContent = "Image réinitialisée";
+  });
 
   fileInput.addEventListener("change", async () => {
     const file = fileInput.files?.[0];

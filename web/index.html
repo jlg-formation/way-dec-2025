@@ -1,24 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>WASM Image Filters</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>web</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      #app {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        height: 100vh;
+        gap: 8px;
+        padding: 8px;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+
+      header h1 {
+        font-size: 1.1rem;
+        margin: 0 16px 0 0;
+        white-space: nowrap;
+      }
+
+      header button {
+        padding: 4px 8px;
+        font-size: 0.9rem;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+      }
+
+      canvas {
+        max-width: 100%;
+        max-height: 100%;
+        image-rendering: pixelated;
+        background: white;
+      }
+
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 0.9rem;
+      }
+
+      .slider {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+
+      #log {
+        font-family: monospace;
+      }
+    </style>
   </head>
+
   <body>
     <div id="app">
-      <h1>WASM Image Filters</h1>
+      <header>
+        <h1>WASM Image Filters</h1>
 
-      <div class="row">
         <input type="file" id="file" accept="image/*" />
-        <button id="btn-js">Filtre JS (grayscale)</button>
-        <button id="btn-wasm">Filtre WASM (grayscale)</button>
-      </div>
 
-      <div class="row">
-        <label>
-          Inversion (WASM) :
+        <button id="btn-js">Grayscale JS</button>
+        <button id="btn-wasm">Grayscale WASM</button>
+        <button id="btn-reset">Reset</button>
+      </header>
+
+      <main>
+        <canvas id="canvas"></canvas>
+      </main>
+
+      <footer>
+        <div class="slider">
+          <label for="invert">Inversion WASM</label>
           <input
             id="invert"
             type="range"
@@ -28,14 +108,10 @@
             value="0"
           />
           <span id="invertVal">0.00</span>
-        </label>
-      </div>
+        </div>
 
-      <div class="row">
         <span id="log"></span>
-      </div>
-
-      <canvas id="canvas"></canvas>
+      </footer>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
